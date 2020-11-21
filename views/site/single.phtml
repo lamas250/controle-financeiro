@@ -1,0 +1,22 @@
+<?php require VIEWS_PATH . 'includes/header.phtml';?>
+
+<div class="container">
+    <div class="jumbotron">
+        <h2>Single Produto </h2>
+    </div>
+   
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <img src="http://placehold.jp/450x350.png" class="img-responsive" >
+        </div>
+        <div class="col-md-6">
+            <h2><?=$this->product['name'];?></h2>
+            <p><?=$this->product['description'];?></p>
+            <p>R$ <?=number_format($this->product['price'],2,',','.');?></p>
+            <a class="btn btn-primary" href="<?=HOME;?>home/">Voltar</a>
+        </div>
+
+    </div>
+</div>
+
+<?php require VIEWS_PATH . 'includes/footer.phtml';?>
