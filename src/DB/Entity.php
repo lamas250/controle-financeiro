@@ -65,7 +65,7 @@ abstract class Entity
 
         
         $insert = $this->bind($sql, $data);
-         
+        $insert->execute();
     }
 
     public function update($data)

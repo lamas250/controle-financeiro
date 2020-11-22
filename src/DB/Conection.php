@@ -2,6 +2,8 @@
 
 namespace DB;
 
+use PDO;
+
 class Conection
 {
     private static $instance = null;
@@ -14,8 +16,8 @@ class Conection
     public static function getInstance()
     {
         if(is_null(self::$instance)) {
-			self::$instance = new \PDO('mysql:dbname=formacao_php;host=127.0.0.1', 'igorlamas', 'Q1w2e3r4!');
-
+			self::$instance = new \PDO('mysql:dbname=myexpense;host=127.0.0.1', 'igorlamas', 'Q1w2e3r4!');
+            self::$instance->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 			self::$instance->exec('SET NAMES UTF8');
 		}
 
