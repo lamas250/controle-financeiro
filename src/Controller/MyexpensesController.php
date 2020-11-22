@@ -2,12 +2,13 @@
 
 namespace Controller;
 
-use Authenticator\CheckUserLogged;
 use View\View;
 use Entity\User;
 use DB\Conection;
 use Entity\Expense;
 use Entity\Category;
+use Session\Session;
+use Authenticator\CheckUserLogged;
 
 class MyexpensesController
 {
@@ -22,8 +23,10 @@ class MyexpensesController
 
     public function index()
     {
+        $user_id = Session::get('user')['id'];
+
         $view = new View('expenses/index.phtml');
-        $view->expenses = (new Expense(Conection::getInstance()))->findAll();
+        $view->expenses = (new Expense(Conection::getInstance()))->where(['users_id' => $user_id]);
 
         return $view->render(); 
     }
@@ -33,17 +36,16 @@ class MyexpensesController
         $method = $_SERVER['REQUEST_METHOD'];
 
         if($method == 'POST'){
-           $data = $_POST;
+            $data = $_POST;
+            $data['users_id'] = Session::get('user')['id'];
+            $expense = new Expense(Conection::getInstance());
+            $expense->insert($data);
 
-           $expense = new Expense(Conection::getInstance());
-           $expense->insert($data);
-
-           return header('Location: ' . HOME . 'myexpenses');
+            return header('Location: ' . HOME . 'myexpenses');
         }
         $view = new View('expenses/new.phtml');
 
         $view->categories = (new Category(Conection::getInstance()))->findAll();
-        $view->users = (new User(Conection::getInstance()))->findAll();
 
         return $view->render();
     }
