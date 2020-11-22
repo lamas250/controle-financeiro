@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Authenticator\CheckUserLogged;
 use View\View;
 use Entity\User;
 use DB\Conection;
@@ -10,6 +11,15 @@ use Entity\Category;
 
 class MyexpensesController
 {
+    use CheckUserLogged;
+
+    public function __construct()
+    {
+        if(!$this->check()){
+            die("PRECISA LOGAR");
+        }
+    }
+
     public function index()
     {
         $view = new View('expenses/index.phtml');

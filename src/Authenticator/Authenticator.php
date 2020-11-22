@@ -2,20 +2,23 @@
 
 namespace Authenticator;
 
+use Entity\User;
 use Session\Session;
 
 class Authenticator
 {
-    public function __construct(User $user)
+    private $user;
+    
+    public function __construct(User $user = null)
     {
         $this->user = $user;
     }
 
     public function login(array $credentials)
     {
-        $user = $this->user->where([
+        $user = current($this->user->where([
             'email' => $credentials['email'],
-        ]);
+        ]));
 
         if(!$user){
             return false;
@@ -24,7 +27,7 @@ class Authenticator
         if($user['password'] != $credentials['password']){
             return false;
         }
-        unser($user['password']);
+        unset($user['password']);
         Session::add('user',$user);
         return true;
     }

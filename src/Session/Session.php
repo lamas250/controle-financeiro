@@ -9,7 +9,7 @@ class Session
         if(session_status() != PHP_SESSION_NONE){
             return;
         }
-        sesion_start();
+        session_start();
     }
 
     public static function add($key, $value)
@@ -28,6 +28,15 @@ class Session
 
     public static function has($key)
     {
+        self::sessionStart();
+
         return isset($_SESSION[$key]);
+    }
+
+    public static function get($key)
+    {
+        self::sessionStart();
+
+        return isset($_SESSION[$key]) ? $_SESSION[$key] : null;
     }
 }
